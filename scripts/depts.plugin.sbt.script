@@ -1,0 +1,46 @@
+import scala.collection.compat._
+import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
+
+object versions {
+    val scalaCollectionCompat = "2.8.1"
+    val kindProjector = "0.13.2"
+    val slick = "3.4.1"
+    val slf4j = "1.7.26"
+}
+
+// start autoImport
+val scalaCollectionCompat = settingKey[ModuleID]("lib for scalaCollectionCompat.")
+val kindProjector = settingKey[Seq[ModuleID]]("lib for kindProjector.")
+val slick = settingKey[Seq[ModuleID]]("lib for slick.")
+val slf4j = settingKey[Seq[ModuleID]]("lib for slf4j.")
+// end autoImport
+
+// start setting
+scalaCollectionCompat := "org.scala-lang.modules" %%% "scala-collection-compat" % versions.scalaCollectionCompat
+// end setting
+
+// start setting
+kindProjector := {
+    val need = CrossVersion.partialVersion(scalaVersion.value).filter(_._1 == 2L).to(Seq)
+    val dept = "org.typelevel" % "kind-projector" % versions.kindProjector cross CrossVersion.full
+    for (_ <- need) yield dept
+}
+// end setting
+
+// start setting
+kindProjector := kindProjector.value.map(compilerPlugin)
+// end setting
+
+// start setting
+slick := Seq(
+  "com.typesafe.slick" %% "slick" % versions.slick,
+  "com.typesafe.slick" %% "slick-hikaricp" % versions.slick,
+  "com.typesafe.slick" %% "slick-codegen" % versions.slick
+)
+// end setting
+
+// start setting
+slf4j := Seq("org.slf4j" % "slf4j-nop" % versions.slf4j)
+// end setting
+
+// scala code override lazy val projectSettings: Seq[Setting[_]] = preSettings
