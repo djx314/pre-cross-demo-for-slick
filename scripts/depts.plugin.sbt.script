@@ -20,23 +20,28 @@ scalaCollectionCompat := "org.scala-lang.modules" %%% "scala-collection-compat" 
 // end setting
 
 // start setting
+kindProjector := List("org.typelevel" % "kind-projector" % versions.kindProjector cross CrossVersion.full)
+// end setting
+
+// start setting
 kindProjector := {
     val need = CrossVersion.partialVersion(scalaVersion.value).filter(_._1 == 2L).to(Seq)
-    val dept = "org.typelevel" % "kind-projector" % versions.kindProjector cross CrossVersion.full
-    for (_ <- need) yield dept
+    val kDept = kindProjector.value
+    val dept = kDept.map(compilerPlugin)
+    for (_ <- need; d <- dept) yield d
 }
 // end setting
 
 // start setting
-kindProjector := kindProjector.value.map(compilerPlugin)
-// end setting
-
-// start setting
-slick := Seq(
-  "com.typesafe.slick" %% "slick" % versions.slick,
-  "com.typesafe.slick" %% "slick-hikaricp" % versions.slick,
-  "com.typesafe.slick" %% "slick-codegen" % versions.slick
-)
+slick := {
+    val need = CrossVersion.partialVersion(scalaVersion.value).filter(_._1 == 2L).to(Seq)
+    val dept = Seq(
+        "com.typesafe.slick" %% "slick" % versions.slick,
+        "com.typesafe.slick" %% "slick-hikaricp" % versions.slick,
+        "com.typesafe.slick" %% "slick-codegen" % versions.slick
+    )
+    for (_ <- need; d <- dept) yield d
+}
 // end setting
 
 // start setting

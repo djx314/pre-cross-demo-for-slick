@@ -1,0 +1,15 @@
+import scala.collection.compat._
+import ContextValues._
+
+// start setting
+crossScalaVersions := scalaV.col
+// end setting
+
+// start setting
+{
+    import org.scalafmt.sbt.ScalafmtPlugin.autoImport.scalafmtOnCompile
+    scalafmtOnCompile := true
+}
+// end setting
+
+// scala code override lazy val projectSettings: Seq[Setting[_]] = preSettings
