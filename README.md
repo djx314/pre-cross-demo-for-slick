@@ -1,5 +1,5 @@
 # pre-cross-demo-for-slick
-## Run
+Run
 ```sbt
 +test
 ```
