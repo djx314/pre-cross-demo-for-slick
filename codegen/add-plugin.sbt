@@ -1,2 +1,0 @@
-enablePlugins(`depts`)
-enablePlugins(SbtTwirl)
