@@ -15,6 +15,8 @@ package impl {
   }
 
   trait GenTupleLike {
+    // Just codegen to 256 parameters.
+
     @inline def forTuple[I1](i1: I1): Tuple1[I1] = Tuple1(i1)
 
     @inline def forTuple[I1, I2](i1: I1, i2: I2): Tuple2[I1, I2] = Tuple2(i1, i2)
